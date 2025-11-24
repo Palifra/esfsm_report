@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Custom minimal layout with proper UTF-8 -->
+    <template id="report_work_order_layout">
+        <t t-call="web.html_container">
+            <t t-raw="'&lt;!DOCTYPE html&gt;'"/>
+            <html>
+                <head>
+                    <meta charset="utf-8"/>
+                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+                    <t t-call-assets="web.report_assets_common" t-js="false"/>
+                </head>
+                <body class="container">
+                    <t t-raw="0"/>
+                </body>
+            </html>
+        </t>
+    </template>
+
+    <!-- Main Report Template -->
+    <template id="report_work_order_document">
+        <t t-call="esfsm_report.report_work_order_layout">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <div class="page" style="font-size: 10pt; padding: 15px;">
+                    <!-- Compact Custom Header -->
+                    <table style="width: 100%; border-bottom: 2px solid #3498db; margin-bottom: 15px; padding-bottom: 8px;">
+                        <tr>
+                            <td style="width: 30%; vertical-align: middle;">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                     style="max-height: 50px; max-width: 100%;"/>
+                            </td>
+                            <td style="width: 70%; text-align: right; vertical-align: middle; font-size: 9pt;">
+                                <strong t-field="o.company_id.name" style="font-size: 11pt;"/><br/>
+                                <span t-field="o.company_id.street"/><t t-if="o.company_id.street2">, <span t-field="o.company_id.street2"/></t><br/>
+                                <span t-field="o.company_id.zip"/> <span t-field="o.company_id.city"/><t t-if="o.company_id.country_id">, <span t-field="o.company_id.country_id.name"/></t><br/>
+                                <t t-if="o.company_id.phone">Тел: <span t-field="o.company_id.phone"/></t>
+                                <t t-if="o.company_id.email"> | Email: <span t-field="o.company_id.email"/></t>
+                            </td>
+                        </tr>
+                    </table>
+                    <!-- Report Title -->
+                    <div class="text-center" style="margin-bottom: 12px;">
+                        <h2 style="font-size: 16pt; font-weight: bold; color: #2c3e50; margin: 0;">
+                            РАБОТЕН НАЛОГ бр. <span t-field="o.name" style="color: #3498db;"/>
+                        </h2>
+                    </div>
+
+                    <!-- Job Header Information -->
+                    <table style="width: 100%; margin-bottom: 10px; font-size: 9pt; border-collapse: collapse;">
+                        <tr>
+                            <td style="width: 20%; padding: 3px; font-weight: bold; vertical-align: top;" t-if="o.job_type_id">Тип:</td>
+                            <td style="width: 30%; padding: 3px; vertical-align: top;" t-if="o.job_type_id">
+                                <span t-field="o.job_type_id.name"/>
+                            </td>
+                            <td style="width: 20%; padding: 3px; font-weight: bold; vertical-align: top;">Датум:</td>
+                            <td style="width: 30%; padding: 3px; vertical-align: top;">
+                                <span t-field="o.create_date" t-options='{"widget": "date"}'/>
+                            </td>
+                        </tr>
+                        <tr t-if="o.scheduled_date_start">
+                            <td style="padding: 3px;"></td>
+                            <td style="padding: 3px;"></td>
+                            <td style="padding: 3px; font-weight: bold; vertical-align: top;">Закажано:</td>
+                            <td style="padding: 3px; vertical-align: top;">
+                                <span t-field="o.scheduled_date_start" t-options='{"widget": "datetime"}'/>
+                            </td>
+                        </tr>
+                        <tr t-if="o.date_start">
+                            <td style="padding: 3px;"></td>
+                            <td style="padding: 3px;"></td>
+                            <td style="padding: 3px; font-weight: bold; vertical-align: top;">Започнато:</td>
+                            <td style="padding: 3px; vertical-align: top;">
+                                <span t-field="o.date_start" t-options='{"widget": "datetime"}'/>
+                            </td>
+                        </tr>
+                        <tr t-if="o.date_end">
+                            <td style="padding: 3px;"></td>
+                            <td style="padding: 3px;"></td>
+                            <td style="padding: 3px; font-weight: bold; vertical-align: top;">Завршено:</td>
+                            <td style="padding: 3px; vertical-align: top;">
+                                <span t-field="o.date_end" t-options='{"widget": "datetime"}'/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Customer Information -->
+                    <table style="width: 100%; margin-bottom: 10px; background-color: #f8f9fa; font-size: 9pt;">
+                        <tr>
+                            <td colspan="2" style="padding: 8px 8px 4px 8px;">
+                                <div style="font-weight: bold; border-bottom: 1px solid #3498db; padding-bottom: 2px; font-size: 10pt;">
+                                    Клиент
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%; padding: 4px 8px; vertical-align: top;">
+                                <div style="font-weight: bold; margin-bottom: 2px;">Име:</div>
+                                <strong><span t-field="o.partner_id.name"/></strong><br/>
+                                <span t-if="o.partner_id.phone">
+                                    Тел: <span t-field="o.partner_id.phone"/><br/>
+                                </span>
+                                <span t-if="o.partner_id.email">
+                                    Email: <span t-field="o.partner_id.email"/>
+                                </span>
+                            </td>
+                            <td style="width: 50%; padding: 4px 8px; vertical-align: top;">
+                                <div style="font-weight: bold; margin-bottom: 2px;">Адреса:</div>
+                                <span t-if="o.partner_id.street">
+                                    <span t-field="o.partner_id"
+                                        t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Work Location (if different) -->
+                    <table t-if="o.partner_address_id" style="width: 100%; margin-bottom: 10px; background-color: #fff3e0; font-size: 9pt;">
+                        <tr>
+                            <td style="padding: 8px;">
+                                <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #ff9800; padding-bottom: 2px; font-size: 10pt;">
+                                    Локација на работа
+                                </div>
+                                <strong><span t-field="o.partner_address_id.name"/></strong><br/>
+                                <span t-field="o.partner_address_id"
+                                      t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Technician/Team Information -->
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-12" style="background-color: #e8f5e9; padding: 8px; font-size: 9pt;">
+                            <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #4caf50; padding-bottom: 2px; font-size: 10pt;">
+                                Техничар / Тим
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <span t-if="o.employee_id">
+                                        <strong>Техничар:</strong> <span t-field="o.employee_id.name"/>
+                                    </span>
+                                    <span t-if="o.team_id">
+                                        <strong>Тим:</strong> <span t-field="o.team_id.name"/><br/>
+                                        <span t-if="o.team_id.member_ids">
+                                            <strong>Членови:</strong>
+                                            <t t-foreach="o.team_id.member_ids" t-as="member">
+                                                <span t-field="member.name"/><t t-if="not member_last">, </t>
+                                            </t>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="col-6" t-if="o.scheduled_duration or o.duration">
+                                    <strong>Планирано траење:</strong> <span t-esc="o._get_scheduled_duration_display()"/><br/>
+                                    <strong>Вкупно траење:</strong>
+                                    <span t-esc="o._get_duration_display()" t-att-class="o.duration > o.scheduled_duration and 'text-danger' or 'text-success'"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job Description -->
+                    <div t-if="o.description" style="margin-bottom: 10px;">
+                        <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #ff9800; padding-bottom: 2px; font-size: 10pt;">
+                            Опис на работата
+                        </div>
+                        <div style="background-color: #fff3e0; padding: 6px; font-size: 9pt; white-space: pre-wrap;">
+                            <span t-field="o.description"/>
+                        </div>
+                    </div>
+
+                    <!-- Checklist Section -->
+                    <div t-if="o.checklist_ids" style="margin-bottom: 10px; page-break-inside: avoid;">
+                        <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #9c27b0; padding-bottom: 2px; font-size: 10pt;">
+                            Контролна листа
+                            <small class="text-muted">
+                                (<span t-esc="o.checklist_done_count"/> / <span t-esc="o.checklist_total_count"/> завршено)
+                            </small>
+                        </div>
+                        <table class="table table-sm table-bordered" style="font-size: 9pt; margin-bottom: 0;">
+                            <thead style="background-color: #9c27b0; color: white;">
+                                <tr>
+                                    <th style="width: 5%; padding: 3px;">#</th>
+                                    <th style="width: 5%; text-align: center; padding: 3px;">✓</th>
+                                    <th style="width: 70%; padding: 3px;">Задача</th>
+                                    <th style="width: 20%; padding: 3px;">Забелешки</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.checklist_ids" t-as="item">
+                                    <td style="padding: 3px;"><span t-esc="item_index + 1"/></td>
+                                    <td class="text-center" style="padding: 3px;">
+                                        <span t-if="item.done" style="color: green; font-size: 14px;">✓</span>
+                                        <span t-else="" style="color: #ccc; font-size: 14px;">☐</span>
+                                    </td>
+                                    <td style="padding: 3px;">
+                                        <span t-field="item.name"
+                                              t-att-style="item.done and 'text-decoration: line-through; color: #888;' or ''"/>
+                                    </td>
+                                    <td style="padding: 3px;">
+                                        <span t-field="item.notes" style="font-size: 8pt; color: #666;"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Materials Section (if esfsm_stock is installed) -->
+                    <t t-if="o._has_stock_module() and o.material_ids">
+                        <div style="margin-bottom: 10px; page-break-inside: avoid;">
+                            <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #f44336; padding-bottom: 2px; font-size: 10pt;">
+                                Материјали
+                            </div>
+                            <table class="table table-sm table-bordered" style="font-size: 9pt; margin-bottom: 0;">
+                                <thead style="background-color: #e8f5e9; color: #2c3e50;">
+                                    <tr>
+                                        <th style="width: 5%; padding: 3px; text-align: center;">#</th>
+                                        <th style="width: 50%; padding: 3px;">Производ</th>
+                                        <th style="width: 13%; text-align: right; padding: 3px;">Земено</th>
+                                        <th style="width: 13%; text-align: right; padding: 3px;">Искористено</th>
+                                        <th style="width: 13%; text-align: right; padding: 3px;">Вратено</th>
+                                        <th style="width: 6%; padding: 3px; text-align: center;">ЕМ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.material_ids" t-as="material">
+                                        <td style="padding: 3px; text-align: center;"><span t-esc="material_index + 1"/></td>
+                                        <td style="padding: 3px;"><span t-field="material.product_id.name"/></td>
+                                        <td style="padding: 3px; text-align: right;"><span t-field="material.taken_qty"/></td>
+                                        <td style="padding: 3px; text-align: right;">
+                                            <strong><span t-field="material.used_qty"/></strong>
+                                        </td>
+                                        <td style="padding: 3px; text-align: right;"><span t-field="material.returned_qty"/></td>
+                                        <td style="padding: 3px; text-align: center;"><span t-field="material.product_uom_id.name"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+
+                    <!-- Timesheet Section (if esfsm_timesheet is installed) -->
+                    <t t-if="o._has_timesheet_module() and o.timesheet_ids">
+                        <div style="margin-bottom: 10px; page-break-inside: avoid;">
+                            <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #009688; padding-bottom: 2px; font-size: 10pt;">
+                                Времиња
+                            </div>
+                            <table class="table table-sm table-bordered" style="font-size: 9pt; margin-bottom: 0;">
+                                <thead style="background-color: #009688; color: white;">
+                                    <tr>
+                                        <th style="width: 5%; padding: 3px;">#</th>
+                                        <th style="width: 15%; padding: 3px;">Датум</th>
+                                        <th style="width: 25%; padding: 3px;">Вработен</th>
+                                        <th style="width: 40%; padding: 3px;">Опис</th>
+                                        <th style="width: 15%; text-align: right; padding: 3px;">Часови</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.timesheet_ids" t-as="timesheet">
+                                        <td style="padding: 3px;"><span t-esc="timesheet_index + 1"/></td>
+                                        <td style="padding: 3px;"><span t-field="timesheet.date"/></td>
+                                        <td style="padding: 3px;"><span t-field="timesheet.employee_id.name"/></td>
+                                        <td style="padding: 3px;"><span t-field="timesheet.name"/></td>
+                                        <td class="text-right" style="padding: 3px;">
+                                            <span t-field="timesheet.unit_amount" t-options='{"widget": "float_time"}'/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr style="background-color: #e0f2f1; font-weight: bold;">
+                                        <td colspan="4" class="text-right" style="padding: 3px;">ВКУПНО ЧАСОВИ:</td>
+                                        <td class="text-right" style="padding: 3px;">
+                                            <span t-field="o.total_hours" t-options='{"widget": "float_time"}'/>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </t>
+
+                    <!-- Signatures Section -->
+                    <table style="width: 100%; margin-top: 20px; page-break-inside: avoid; font-size: 9pt;">
+                        <tr>
+                            <td style="width: 50%; padding-right: 5px; vertical-align: top;">
+                                <div style="border: 1px solid #ddd; padding: 8px; min-height: 60px;">
+                                    <div style="font-weight: bold; margin-bottom: 6px; font-size: 10pt;">
+                                        Потпис на техничар
+                                    </div>
+                                    <div style="min-height: 30px; margin-bottom: 6px; text-align: center;">
+                                        <img t-if="o.technician_signature"
+                                             t-att-src="'data:image/png;base64,%s' % o.technician_signature.decode('utf-8')"
+                                             style="max-height: 30px; max-width: 100%;"/>
+                                    </div>
+                                    <div style="border-top: 1px solid #999; padding-top: 3px; text-align: center;">
+                                        <div style="margin-bottom: 2px; font-size: 8pt; color: #666;">
+                                            Име, презиме, потпис
+                                        </div>
+                                        <span t-if="o.technician_signature_date">
+                                            Датум: <span t-field="o.technician_signature_date" t-options='{"widget": "date"}'/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="width: 50%; padding-left: 5px; vertical-align: top;">
+                                <div style="border: 1px solid #ddd; padding: 8px; min-height: 60px;">
+                                    <div style="font-weight: bold; margin-bottom: 6px; font-size: 10pt;">
+                                        Потпис на клиент
+                                    </div>
+                                    <div style="min-height: 30px; margin-bottom: 6px; text-align: center;">
+                                        <img t-if="o.customer_signature"
+                                             t-att-src="'data:image/png;base64,%s' % o.customer_signature.decode('utf-8')"
+                                             style="max-height: 30px; max-width: 100%;"/>
+                                    </div>
+                                    <div style="border-top: 1px solid #999; padding-top: 3px; text-align: center;">
+                                        <div style="margin-bottom: 2px; font-size: 8pt; color: #666;">
+                                            Име, презиме, потпис
+                                        </div>
+                                        <span t-if="o.customer_signature_date">
+                                            Датум: <span t-field="o.customer_signature_date" t-options='{"widget": "date"}'/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Compact Footer -->
+                    <div class="text-center text-muted" style="margin-top: 15px; font-size: 8pt; border-top: 1px solid #ddd; padding-top: 8px;">
+                        <p style="margin: 0;">
+                            Автоматски генериран документ од ESFSM системот
+                            <t t-if="o.company_id.phone or o.company_id.email">
+                                |
+                                <span t-if="o.company_id.phone">Тел: <span t-field="o.company_id.phone"/></span>
+                                <span t-if="o.company_id.email"> | Email: <span t-field="o.company_id.email"/></span>
+                            </t>
+                        </p>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

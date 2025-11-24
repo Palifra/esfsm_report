@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_esfsm_job_report_user,esfsm.job.report.user,esfsm.model_esfsm_job,esfsm.group_esfsm_user,1,0,0,0
+access_esfsm_job_report_manager,esfsm.job.report.manager,esfsm.model_esfsm_job,esfsm.group_esfsm_manager,1,1,1,1

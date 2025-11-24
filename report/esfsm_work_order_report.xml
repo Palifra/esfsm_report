@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Custom Paper Format with minimal margins -->
+    <record id="paperformat_esfsm_work_order" model="report.paperformat">
+        <field name="name">ESFSM Work Order Format</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Report Action: Работен налог (Work Order) -->
+    <record id="action_report_esfsm_work_order" model="ir.actions.report">
+        <field name="name">Работен налог</field>
+        <field name="model">esfsm.job</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">esfsm_report.report_work_order_document</field>
+        <field name="report_file">esfsm_report.report_work_order_document</field>
+        <field name="print_report_name">'Работен налог - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="esfsm.model_esfsm_job"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_esfsm_work_order"/>
+    </record>
+</odoo>

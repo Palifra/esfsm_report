@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add Print Work Order button to job form -->
+    <record id="esfsm_job_view_form_report" model="ir.ui.view">
+        <field name="name">esfsm.job.form.report</field>
+        <field name="model">esfsm.job</field>
+        <field name="inherit_id" ref="esfsm.esfsm_job_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Add Print button in header -->
+            <xpath expr="//header" position="inside">
+                <button name="action_print_work_order" string="Печати Работен налог"
+                        type="object" class="oe_highlight"
+                        icon="fa-print"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
