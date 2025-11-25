@@ -136,8 +136,11 @@
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <span t-if="o.employee_id">
-                                        <strong>Техничар:</strong> <span t-field="o.employee_id.name"/>
+                                    <span t-if="o.employee_ids">
+                                        <strong>Техничари:</strong>
+                                        <span t-foreach="o.employee_ids" t-as="emp">
+                                            <span t-field="emp.name"/><t t-if="not emp_last">, </t>
+                                        </span>
                                     </span>
                                     <span t-if="o.team_id">
                                         <strong>Тим:</strong> <span t-field="o.team_id.name"/><br/>

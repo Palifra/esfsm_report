@@ -48,7 +48,7 @@ class TestEsfsmReport(TransactionCase):
         # Create test job
         cls.job = cls.env['esfsm.job'].create({
             'partner_id': cls.partner.id,
-            'employee_id': cls.employee.id,
+            'employee_ids': [(6, 0, [cls.employee.id])],
             'stage_id': cls.stage.id,
             'job_type_id': cls.job_type.id,
             'scheduled_date_start': '2025-11-25 10:00:00',
@@ -184,7 +184,7 @@ class TestEsfsmReport(TransactionCase):
         for priority in ['0', '1', '2', '3']:
             job = self.env['esfsm.job'].create({
                 'partner_id': self.partner.id,
-                'employee_id': self.employee.id,
+                'employee_ids': [(6, 0, [self.employee.id])],
                 'priority': priority,
                 'scheduled_date_start': '2025-11-27 10:00:00',
             })
