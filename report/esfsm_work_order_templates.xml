@@ -213,33 +213,33 @@
                             Материјали
                         </div>
                         <t t-set="materials_list" t-value="o._get_materials_for_report(15)"/>
-                        <table class="table table-sm table-bordered" style="font-size: 9pt; margin-bottom: 0;">
+                        <table style="font-size: 9pt; margin-bottom: 0; width: 100%; border-collapse: collapse; border: 1px solid #333;">
                             <thead style="background-color: #e8f5e9; color: #2c3e50;">
                                 <tr>
-                                    <th style="width: 5%; padding: 3px; text-align: center;">#</th>
-                                    <th style="width: 50%; padding: 3px;">Производ</th>
-                                    <th style="width: 13%; text-align: right; padding: 3px;">Земено</th>
-                                    <th style="width: 13%; text-align: right; padding: 3px;">Искористено</th>
-                                    <th style="width: 13%; text-align: right; padding: 3px;">Вратено</th>
-                                    <th style="width: 6%; padding: 3px; text-align: center;">ЕМ</th>
+                                    <th style="width: 5%; padding: 4px; text-align: center; border: 1px solid #333;">#</th>
+                                    <th style="width: 50%; padding: 4px; border: 1px solid #333;">Производ</th>
+                                    <th style="width: 13%; text-align: right; padding: 4px; border: 1px solid #333;">Земено</th>
+                                    <th style="width: 13%; text-align: right; padding: 4px; border: 1px solid #333;">Искористено</th>
+                                    <th style="width: 13%; text-align: right; padding: 4px; border: 1px solid #333;">Вратено</th>
+                                    <th style="width: 6%; padding: 4px; text-align: center; border: 1px solid #333;">ЕМ</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr t-foreach="materials_list" t-as="material">
-                                    <td style="padding: 3px; text-align: center;"><span t-esc="material_index + 1"/></td>
-                                    <td style="padding: 3px; min-height: 18px;">
+                                    <td style="padding: 4px; text-align: center; border: 1px solid #333; height: 22px;"><span t-esc="material_index + 1"/></td>
+                                    <td style="padding: 4px; border: 1px solid #333; height: 22px;">
                                         <span t-esc="material.get('product_name', '')"/>
                                     </td>
-                                    <td style="padding: 3px; text-align: right;">
+                                    <td style="padding: 4px; text-align: right; border: 1px solid #333; height: 22px;">
                                         <span t-if="not material.get('is_empty')" t-esc="material.get('taken_qty', '')"/>
                                     </td>
-                                    <td style="padding: 3px; text-align: right;">
+                                    <td style="padding: 4px; text-align: right; border: 1px solid #333; height: 22px;">
                                         <strong t-if="not material.get('is_empty')"><span t-esc="material.get('used_qty', '')"/></strong>
                                     </td>
-                                    <td style="padding: 3px; text-align: right;">
+                                    <td style="padding: 4px; text-align: right; border: 1px solid #333; height: 22px;">
                                         <span t-if="not material.get('is_empty')" t-esc="material.get('returned_qty', '')"/>
                                     </td>
-                                    <td style="padding: 3px; text-align: center;">
+                                    <td style="padding: 4px; text-align: center; border: 1px solid #333; height: 22px;">
                                         <span t-esc="material.get('uom_name', '')"/>
                                     </td>
                                 </tr>
