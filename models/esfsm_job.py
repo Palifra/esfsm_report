@@ -43,3 +43,41 @@ class EsfsmJob(models.Model):
                 return f"{hours}ч {minutes}мин"
             return f"{hours}ч"
         return "-"
+
+    def _get_materials_for_report(self, min_rows=15):
+        """Return materials with empty rows to fill minimum rows for manual entry.
+
+        Args:
+            min_rows: Minimum number of rows to return (default 15)
+
+        Returns:
+            List of dicts with material data or empty placeholders
+        """
+        self.ensure_one()
+        materials = []
+
+        # Add existing materials if esfsm_stock is installed
+        if self._has_stock_module() and self.material_ids:
+            for material in self.material_ids:
+                materials.append({
+                    'product_name': material.product_id.name if material.product_id else '',
+                    'taken_qty': material.taken_qty,
+                    'used_qty': material.used_qty,
+                    'returned_qty': material.returned_qty,
+                    'uom_name': material.product_uom_id.name if material.product_uom_id else '',
+                    'is_empty': False,
+                })
+
+        # Fill remaining rows with empty placeholders
+        current_count = len(materials)
+        for i in range(current_count, min_rows):
+            materials.append({
+                'product_name': '',
+                'taken_qty': '',
+                'used_qty': '',
+                'returned_qty': '',
+                'uom_name': '',
+                'is_empty': True,
+            })
+
+        return materials

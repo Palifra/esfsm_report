@@ -207,38 +207,45 @@
                         </table>
                     </div>
 
-                    <!-- Materials Section (if esfsm_stock is installed) -->
-                    <t t-if="o._has_stock_module() and o.material_ids">
-                        <div style="margin-bottom: 10px; page-break-inside: avoid;">
-                            <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #f44336; padding-bottom: 2px; font-size: 10pt;">
-                                Материјали
-                            </div>
-                            <table class="table table-sm table-bordered" style="font-size: 9pt; margin-bottom: 0;">
-                                <thead style="background-color: #e8f5e9; color: #2c3e50;">
-                                    <tr>
-                                        <th style="width: 5%; padding: 3px; text-align: center;">#</th>
-                                        <th style="width: 50%; padding: 3px;">Производ</th>
-                                        <th style="width: 13%; text-align: right; padding: 3px;">Земено</th>
-                                        <th style="width: 13%; text-align: right; padding: 3px;">Искористено</th>
-                                        <th style="width: 13%; text-align: right; padding: 3px;">Вратено</th>
-                                        <th style="width: 6%; padding: 3px; text-align: center;">ЕМ</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr t-foreach="o.material_ids" t-as="material">
-                                        <td style="padding: 3px; text-align: center;"><span t-esc="material_index + 1"/></td>
-                                        <td style="padding: 3px;"><span t-field="material.product_id.name"/></td>
-                                        <td style="padding: 3px; text-align: right;"><span t-field="material.taken_qty"/></td>
-                                        <td style="padding: 3px; text-align: right;">
-                                            <strong><span t-field="material.used_qty"/></strong>
-                                        </td>
-                                        <td style="padding: 3px; text-align: right;"><span t-field="material.returned_qty"/></td>
-                                        <td style="padding: 3px; text-align: center;"><span t-field="material.product_uom_id.name"/></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <!-- Materials Section (always show with min 15 rows for manual entry) -->
+                    <div style="margin-bottom: 10px; page-break-inside: avoid;">
+                        <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #f44336; padding-bottom: 2px; font-size: 10pt;">
+                            Материјали
                         </div>
-                    </t>
+                        <t t-set="materials_list" t-value="o._get_materials_for_report(15)"/>
+                        <table class="table table-sm table-bordered" style="font-size: 9pt; margin-bottom: 0;">
+                            <thead style="background-color: #e8f5e9; color: #2c3e50;">
+                                <tr>
+                                    <th style="width: 5%; padding: 3px; text-align: center;">#</th>
+                                    <th style="width: 50%; padding: 3px;">Производ</th>
+                                    <th style="width: 13%; text-align: right; padding: 3px;">Земено</th>
+                                    <th style="width: 13%; text-align: right; padding: 3px;">Искористено</th>
+                                    <th style="width: 13%; text-align: right; padding: 3px;">Вратено</th>
+                                    <th style="width: 6%; padding: 3px; text-align: center;">ЕМ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="materials_list" t-as="material">
+                                    <td style="padding: 3px; text-align: center;"><span t-esc="material_index + 1"/></td>
+                                    <td style="padding: 3px; min-height: 18px;">
+                                        <span t-esc="material.get('product_name', '')"/>
+                                    </td>
+                                    <td style="padding: 3px; text-align: right;">
+                                        <span t-if="not material.get('is_empty')" t-esc="material.get('taken_qty', '')"/>
+                                    </td>
+                                    <td style="padding: 3px; text-align: right;">
+                                        <strong t-if="not material.get('is_empty')"><span t-esc="material.get('used_qty', '')"/></strong>
+                                    </td>
+                                    <td style="padding: 3px; text-align: right;">
+                                        <span t-if="not material.get('is_empty')" t-esc="material.get('returned_qty', '')"/>
+                                    </td>
+                                    <td style="padding: 3px; text-align: center;">
+                                        <span t-esc="material.get('uom_name', '')"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <!-- Timesheet Section (if esfsm_timesheet is installed) -->
                     <t t-if="o._has_timesheet_module() and o.timesheet_ids">
