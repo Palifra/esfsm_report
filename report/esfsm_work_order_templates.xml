@@ -249,18 +249,18 @@
 
                     <!-- Timesheet Section (if esfsm_timesheet is installed) -->
                     <t t-if="o._has_timesheet_module() and o.timesheet_ids">
-                        <div style="margin-bottom: 10px; page-break-inside: avoid;">
+                        <div style="margin-bottom: 10px; page-break-inside: avoid; width: 100%;">
                             <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #009688; padding-bottom: 2px; font-size: 10pt;">
                                 Времиња
                             </div>
-                            <table class="table table-sm table-bordered" style="font-size: 9pt; margin-bottom: 0;">
+                            <table class="table table-sm table-bordered" style="font-size: 9pt; margin-bottom: 0; width: 100%;">
                                 <thead style="background-color: #009688; color: white;">
                                     <tr>
-                                        <th style="width: 5%; padding: 3px;">#</th>
-                                        <th style="width: 15%; padding: 3px;">Датум</th>
-                                        <th style="width: 25%; padding: 3px;">Вработен</th>
-                                        <th style="width: 40%; padding: 3px;">Опис</th>
-                                        <th style="width: 15%; text-align: right; padding: 3px;">Часови</th>
+                                        <th style="width: 4%; padding: 3px;">#</th>
+                                        <th style="width: 12%; padding: 3px;">Датум</th>
+                                        <th style="width: 18%; padding: 3px;">Вработен</th>
+                                        <th style="width: 54%; padding: 3px;">Опис</th>
+                                        <th style="width: 12%; text-align: right; padding: 3px;">Часови</th>
                                     </tr>
                                 </thead>
                                 <tbody>
