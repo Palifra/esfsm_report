@@ -84,46 +84,49 @@
                         </tr>
                     </table>
 
-                    <!-- Customer Information -->
-                    <table style="width: 100%; margin-bottom: 10px; background-color: #f8f9fa; font-size: 9pt;">
+                    <!-- Customer and Location Information -->
+                    <table style="width: 100%; margin-bottom: 10px; font-size: 9pt; border-collapse: collapse;">
                         <tr>
-                            <td colspan="2" style="padding: 8px 8px 4px 8px;">
-                                <div style="font-weight: bold; border-bottom: 1px solid #3498db; padding-bottom: 2px; font-size: 10pt;">
+                            <!-- Customer (Left Column) -->
+                            <td style="width: 50%; padding: 8px; vertical-align: top; background-color: #f8f9fa;">
+                                <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #3498db; padding-bottom: 2px; font-size: 10pt;">
                                     Клиент
                                 </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="width: 50%; padding: 4px 8px; vertical-align: top;">
-                                <div style="font-weight: bold; margin-bottom: 2px;">Име:</div>
                                 <strong><span t-field="o.partner_id.name"/></strong><br/>
                                 <span t-if="o.partner_id.phone">
                                     Тел: <span t-field="o.partner_id.phone"/><br/>
                                 </span>
                                 <span t-if="o.partner_id.email">
-                                    Email: <span t-field="o.partner_id.email"/>
+                                    Email: <span t-field="o.partner_id.email"/><br/>
                                 </span>
-                            </td>
-                            <td style="width: 50%; padding: 4px 8px; vertical-align: top;">
-                                <div style="font-weight: bold; margin-bottom: 2px;">Адреса:</div>
                                 <span t-if="o.partner_id.street">
                                     <span t-field="o.partner_id"
                                         t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
                                 </span>
                             </td>
-                        </tr>
-                    </table>
-
-                    <!-- Work Location (if different) -->
-                    <table t-if="o.partner_address_id" style="width: 100%; margin-bottom: 10px; background-color: #fff3e0; font-size: 9pt;">
-                        <tr>
-                            <td style="padding: 8px;">
+                            <!-- Location (Right Column) -->
+                            <td style="width: 50%; padding: 8px; vertical-align: top; background-color: #fff3e0;">
                                 <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #ff9800; padding-bottom: 2px; font-size: 10pt;">
-                                    Локација на работа
+                                    Локација
                                 </div>
-                                <strong><span t-field="o.partner_address_id.name"/></strong><br/>
-                                <span t-field="o.partner_address_id"
-                                      t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
+                                <t t-if="o.site_id">
+                                    <strong><span t-field="o.site_id.name"/></strong><br/>
+                                    <t t-if="o.site_id.street or o.site_id.city">
+                                        <span t-if="o.site_id.street" t-field="o.site_id.street"/>
+                                        <t t-if="o.site_id.street2">, <span t-field="o.site_id.street2"/></t><br/>
+                                        <span t-if="o.site_id.zip" t-field="o.site_id.zip"/>
+                                        <span t-if="o.site_id.city" t-field="o.site_id.city"/>
+                                        <t t-if="o.site_id.country_id">, <span t-field="o.site_id.country_id.name"/></t>
+                                    </t>
+                                    <t t-if="o.site_id.contact_name or o.site_id.contact_phone">
+                                        <br/>
+                                        <span t-if="o.site_id.contact_name">Контакт: <span t-field="o.site_id.contact_name"/></span>
+                                        <span t-if="o.site_id.contact_phone"> | Тел: <span t-field="o.site_id.contact_phone"/></span>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <span style="color: #999; font-style: italic;">Не е дефинирана</span>
+                                </t>
                             </td>
                         </tr>
                     </table>
@@ -152,10 +155,10 @@
                                         </span>
                                     </span>
                                 </div>
-                                <div class="col-6" t-if="o.scheduled_duration or o.duration">
+                                <div class="col-6" t-if="o.scheduled_duration or o.date_start">
                                     <strong>Планирано траење:</strong> <span t-esc="o._get_scheduled_duration_display()"/><br/>
                                     <strong>Вкупно траење:</strong>
-                                    <span t-esc="o._get_duration_display()" t-att-class="o.duration > o.scheduled_duration and 'text-danger' or 'text-success'"/>
+                                    <span t-esc="o._get_duration_display()"/>
                                 </div>
                             </div>
                         </div>
@@ -163,43 +166,43 @@
 
                     <!-- Job Description -->
                     <div t-if="o.description" style="margin-bottom: 10px;">
-                        <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #ff9800; padding-bottom: 2px; font-size: 10pt;">
+                        <div style="font-weight: bold; margin-bottom: 2px; border-bottom: 1px solid #ff9800; padding-bottom: 2px; font-size: 10pt;">
                             Опис на работата
                         </div>
-                        <div style="background-color: #fff3e0; padding: 6px; font-size: 9pt; white-space: pre-wrap;">
+                        <div style="background-color: #fff3e0; padding: 2px 3px; font-size: 9pt; white-space: pre-wrap;">
                             <span t-field="o.description"/>
                         </div>
                     </div>
 
                     <!-- Checklist Section -->
-                    <div t-if="o.checklist_ids" style="margin-bottom: 10px; page-break-inside: avoid;">
+                    <div t-if="o.checklist_ids" style="margin-bottom: 10px; page-break-inside: avoid; width: 100%;">
                         <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #9c27b0; padding-bottom: 2px; font-size: 10pt;">
                             Контролна листа
-                            <small class="text-muted">
+                            <small style="color: #666; font-weight: normal;">
                                 (<span t-esc="o.checklist_done_count"/> / <span t-esc="o.checklist_total_count"/> завршено)
                             </small>
                         </div>
-                        <table class="table table-sm table-bordered" style="font-size: 9pt; margin-bottom: 0;">
-                            <thead style="background-color: #9c27b0; color: white;">
+                        <table style="font-size: 9pt; margin-bottom: 0; width: 100%; border-collapse: collapse; border: 1px solid #333; table-layout: fixed;">
+                            <thead style="background-color: #e1bee7; color: #2c3e50;">
                                 <tr>
-                                    <th style="width: 5%; padding: 3px;">#</th>
-                                    <th style="width: 5%; text-align: center; padding: 3px;">✓</th>
-                                    <th style="width: 70%; padding: 3px;">Задача</th>
-                                    <th style="width: 20%; padding: 3px;">Забелешки</th>
+                                    <th style="width: 4%; padding: 4px; text-align: center; border: 1px solid #333;">#</th>
+                                    <th style="width: 6%; padding: 4px; text-align: center; border: 1px solid #333;">✓</th>
+                                    <th style="width: 60%; padding: 4px; border: 1px solid #333;">Задача</th>
+                                    <th style="width: 30%; padding: 4px; border: 1px solid #333;">Забелешки</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr t-foreach="o.checklist_ids" t-as="item">
-                                    <td style="padding: 3px;"><span t-esc="item_index + 1"/></td>
-                                    <td class="text-center" style="padding: 3px;">
+                                    <td style="padding: 4px; text-align: center; border: 1px solid #333;"><span t-esc="item_index + 1"/></td>
+                                    <td style="padding: 4px; text-align: center; border: 1px solid #333;">
                                         <span t-if="item.done" style="color: green; font-size: 14px;">✓</span>
                                         <span t-else="" style="color: #ccc; font-size: 14px;">☐</span>
                                     </td>
-                                    <td style="padding: 3px;">
+                                    <td style="padding: 4px; border: 1px solid #333;">
                                         <span t-field="item.name"
                                               t-att-style="item.done and 'text-decoration: line-through; color: #888;' or ''"/>
                                     </td>
-                                    <td style="padding: 3px;">
+                                    <td style="padding: 4px; border: 1px solid #333;">
                                         <span t-field="item.notes" style="font-size: 8pt; color: #666;"/>
                                     </td>
                                 </tr>
@@ -212,7 +215,7 @@
                         <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #f44336; padding-bottom: 2px; font-size: 10pt;">
                             Материјали
                         </div>
-                        <t t-set="materials_list" t-value="o._get_materials_for_report(15)"/>
+                        <t t-set="materials_list" t-value="o._get_materials_for_report(10)"/>
                         <table style="font-size: 9pt; margin-bottom: 0; width: 100%; border-collapse: collapse; border: 1px solid #333;">
                             <thead style="background-color: #e8f5e9; color: #2c3e50;">
                                 <tr>
@@ -249,18 +252,18 @@
 
                     <!-- Timesheet Section (if esfsm_timesheet is installed) -->
                     <t t-if="o._has_timesheet_module() and o.timesheet_ids">
-                        <div style="margin-bottom: 10px; page-break-inside: avoid;">
+                        <div style="margin-bottom: 10px; page-break-inside: avoid; width: 100%;">
                             <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #009688; padding-bottom: 2px; font-size: 10pt;">
                                 Времиња
                             </div>
-                            <table style="font-size: 9pt; margin-bottom: 0; width: 100%; border-collapse: collapse; border: 1px solid #333;">
+                            <table style="font-size: 9pt; margin-bottom: 0; width: 100%; border-collapse: collapse; border: 1px solid #333; table-layout: fixed;">
                                 <thead style="background-color: #b2dfdb; color: #2c3e50;">
                                     <tr>
                                         <th style="width: 4%; padding: 4px; text-align: center; border: 1px solid #333;">#</th>
                                         <th style="width: 10%; padding: 4px; border: 1px solid #333;">Датум</th>
                                         <th style="width: 16%; padding: 4px; border: 1px solid #333;">Вработен</th>
                                         <th style="width: 58%; padding: 4px; border: 1px solid #333;">Опис</th>
-                                        <th style="width: 12%; text-align: right; padding: 4px; border: 1px solid #333;">Часови</th>
+                                        <th style="width: 12%; padding: 4px; text-align: right; border: 1px solid #333;">Часови</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -332,17 +335,6 @@
                         </tr>
                     </table>
 
-                    <!-- Compact Footer -->
-                    <div class="text-center text-muted" style="margin-top: 15px; font-size: 8pt; border-top: 1px solid #ddd; padding-top: 8px;">
-                        <p style="margin: 0;">
-                            Автоматски генериран документ од ESFSM системот
-                            <t t-if="o.company_id.phone or o.company_id.email">
-                                |
-                                <span t-if="o.company_id.phone">Тел: <span t-field="o.company_id.phone"/></span>
-                                <span t-if="o.company_id.email"> | Email: <span t-field="o.company_id.email"/></span>
-                            </t>
-                        </p>
-                    </div>
                 </div>
             </t>
         </t>

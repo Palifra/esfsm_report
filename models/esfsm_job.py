@@ -23,11 +23,25 @@ class EsfsmJob(models.Model):
         return 'timesheet_ids' in self.env['esfsm.job']._fields
 
     def _get_duration_display(self):
-        """Get formatted duration for display"""
+        """Get formatted actual duration for display.
+
+        Uses total_hours from timesheets if esfsm_timesheet is installed,
+        otherwise calculates from date_start/date_end timestamps.
+        """
         self.ensure_one()
-        if self.duration:
-            hours = int(self.duration)
-            minutes = int((self.duration - hours) * 60)
+        duration = 0.0
+
+        # Prefer total_hours from timesheets if available
+        if self._has_timesheet_module() and hasattr(self, 'total_hours'):
+            duration = self.total_hours
+        # Fallback: calculate from timestamps
+        elif self.date_start and self.date_end:
+            delta = self.date_end - self.date_start
+            duration = delta.total_seconds() / 3600.0
+
+        if duration:
+            hours = int(duration)
+            minutes = int((duration - hours) * 60)
             if minutes:
                 return f"{hours}ч {minutes}мин"
             return f"{hours}ч"
