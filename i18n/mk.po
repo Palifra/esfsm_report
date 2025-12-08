@@ -1,0 +1,157 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * esfsm_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-08 12:00+0000\n"
+"PO-Revision-Date: 2025-12-08 12:00+0000\n"
+"Last-Translator: ESKON <info@eskon.com.mk>\n"
+"Language-Team: Macedonian <mk@li.org>\n"
+"Language: mk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: esfsm_report
+#: model:ir.actions.report,name:esfsm_report.action_report_esfsm_job
+msgid "Work Order"
+msgstr "Работен налог"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Work Order Report"
+msgstr "Извештај за работен налог"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Customer"
+msgstr "Клиент"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Service Location"
+msgstr "Сервисна локација"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Scheduled Date"
+msgstr "Закажан датум"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Technician"
+msgstr "Техничар"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Team"
+msgstr "Тим"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Job Description"
+msgstr "Опис на работата"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Checklist"
+msgstr "Листа за проверка"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Item"
+msgstr "Ставка"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Status"
+msgstr "Статус"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Notes"
+msgstr "Белешки"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Materials Used"
+msgstr "Искористени материјали"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Product"
+msgstr "Производ"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Planned"
+msgstr "Планирано"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Taken"
+msgstr "Земено"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Used"
+msgstr "Искористено"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Returned"
+msgstr "Вратено"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Unit Price"
+msgstr "Единечна цена"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Subtotal"
+msgstr "Вкупно"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "No materials used"
+msgstr "Нема искористени материјали"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Time Tracking"
+msgstr "Следење на време"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Total Hours"
+msgstr "Вкупно часови"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Signatures"
+msgstr "Потписи"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Customer Signature"
+msgstr "Потпис на клиент"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Technician Signature"
+msgstr "Потпис на техничар"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.report_esfsm_job
+msgid "Date"
+msgstr "Датум"
+
+#. module: esfsm_report
+#: model_terms:ir.ui.view,arch_db:esfsm_report.esfsm_job_view_form
+msgid "Print Work Order"
+msgstr "Печати работен налог"
