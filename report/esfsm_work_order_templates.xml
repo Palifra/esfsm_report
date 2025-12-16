@@ -135,7 +135,7 @@
                     <div class="row" style="margin-bottom: 10px;">
                         <div class="col-12" style="background-color: #e8f5e9; padding: 8px; font-size: 9pt;">
                             <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #4caf50; padding-bottom: 2px; font-size: 10pt;">
-                                Техничар / Тим
+                                Техничар / Тим / Возило
                             </div>
                             <div class="row">
                                 <div class="col-6">
@@ -144,6 +144,7 @@
                                         <span t-foreach="o.employee_ids" t-as="emp">
                                             <span t-field="emp.name"/><t t-if="not emp_last">, </t>
                                         </span>
+                                        <br/>
                                     </span>
                                     <span t-if="o.team_id">
                                         <strong>Тим:</strong> <span t-field="o.team_id.name"/><br/>
@@ -152,7 +153,14 @@
                                             <t t-foreach="o.team_id.member_ids" t-as="member">
                                                 <span t-field="member.name"/><t t-if="not member_last">, </t>
                                             </t>
+                                            <br/>
                                         </span>
+                                    </span>
+                                    <span t-if="o.effective_vehicle_ids">
+                                        <strong>Возило:</strong>
+                                        <t t-foreach="o.effective_vehicle_ids" t-as="vehicle">
+                                            <span t-field="vehicle.license_plate"/><t t-if="not vehicle_last">, </t>
+                                        </t>
                                     </span>
                                 </div>
                                 <div class="col-6" t-if="o.scheduled_duration or o.date_start">
@@ -169,8 +177,13 @@
                         <div style="font-weight: bold; margin-bottom: 2px; border-bottom: 1px solid #ff9800; padding-bottom: 2px; font-size: 10pt;">
                             Опис на работата
                         </div>
-                        <div style="background-color: #fff3e0; padding: 2px 3px; font-size: 9pt; white-space: pre-wrap;">
-                            <span t-field="o.description"/>
+                        <style>
+                            .description-content ul, .description-content ol { margin: 2px 0; padding-left: 18px; }
+                            .description-content li { margin: 0; padding: 0; line-height: 1.3; }
+                            .description-content p { margin: 2px 0; }
+                        </style>
+                        <div class="description-content" style="background-color: #fff3e0; padding: 4px 6px; font-size: 9pt;">
+                            <t t-raw="o.description"/>
                         </div>
                     </div>
 
@@ -285,6 +298,52 @@
                                         </td>
                                     </tr>
                                 </tfoot>
+                            </table>
+                        </div>
+                    </t>
+
+                    <!-- Travel Section -->
+                    <t t-if="o.travel_ids">
+                        <div style="margin-bottom: 10px; page-break-inside: avoid; width: 100%;">
+                            <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #795548; padding-bottom: 2px; font-size: 10pt;">
+                                Патувања
+                                <small style="color: #666; font-weight: normal;">
+                                    (Вкупно: <span t-esc="'%.1f' % o.total_travel_time"/> ч, <span t-esc="'%.0f' % sum(o.travel_ids.mapped('distance'))"/> км)
+                                </small>
+                            </div>
+                            <table style="font-size: 9pt; margin-bottom: 0; width: 100%; border-collapse: collapse; border: 1px solid #333; table-layout: fixed;">
+                                <thead style="background-color: #d7ccc8; color: #2c3e50;">
+                                    <tr>
+                                        <th style="width: 4%; padding: 4px; text-align: center; border: 1px solid #333;">#</th>
+                                        <th style="width: 12%; padding: 4px; border: 1px solid #333;">Датум</th>
+                                        <th style="width: 20%; padding: 4px; border: 1px solid #333;">Возило</th>
+                                        <th style="width: 18%; padding: 4px; border: 1px solid #333;">Возач</th>
+                                        <th style="width: 12%; padding: 4px; text-align: right; border: 1px solid #333;">Почеток км</th>
+                                        <th style="width: 12%; padding: 4px; text-align: right; border: 1px solid #333;">Крај км</th>
+                                        <th style="width: 10%; padding: 4px; text-align: right; border: 1px solid #333;">Км</th>
+                                        <th style="width: 12%; padding: 4px; text-align: right; border: 1px solid #333;">Време</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.travel_ids" t-as="travel">
+                                        <td style="padding: 4px; text-align: center; border: 1px solid #333;"><span t-esc="travel_index + 1"/></td>
+                                        <td style="padding: 4px; border: 1px solid #333;"><span t-field="travel.date"/></td>
+                                        <td style="padding: 4px; border: 1px solid #333;"><span t-field="travel.vehicle_id.license_plate"/></td>
+                                        <td style="padding: 4px; border: 1px solid #333;"><span t-field="travel.driver_id.name"/></td>
+                                        <td style="padding: 4px; text-align: right; border: 1px solid #333;">
+                                            <span t-esc="'%.0f' % travel.odometer_start" t-if="travel.odometer_start"/>
+                                        </td>
+                                        <td style="padding: 4px; text-align: right; border: 1px solid #333;">
+                                            <span t-esc="'%.0f' % travel.odometer_end" t-if="travel.odometer_end"/>
+                                        </td>
+                                        <td style="padding: 4px; text-align: right; border: 1px solid #333; font-weight: bold;">
+                                            <span t-esc="'%.0f' % travel.distance"/>
+                                        </td>
+                                        <td style="padding: 4px; text-align: right; border: 1px solid #333;">
+                                            <span t-field="travel.travel_time" t-options='{"widget": "float_time"}'/>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </t>

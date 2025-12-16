@@ -20,7 +20,9 @@ class IrActionsReport(models.Model):
         """Override to add custom footer with page numbering for ESFSM reports."""
 
         # Check if this is our report
-        if report_ref == 'esfsm_report.report_work_order_document':
+        # report_ref can be string or ir.actions.report recordset
+        report_name = report_ref if isinstance(report_ref, str) else (report_ref.report_name if report_ref else '')
+        if report_name == 'esfsm_report.report_work_order_document':
             footer = '''<!DOCTYPE html>
 <html><head><meta charset="utf-8"/>
 <style>body{font-family:Arial,sans-serif;font-size:7pt;color:#666;margin:0;padding:2px 10px;}
