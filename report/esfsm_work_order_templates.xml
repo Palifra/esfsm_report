@@ -302,6 +302,48 @@
                         </div>
                     </t>
 
+                    <!-- Resolution Notes Section -->
+                    <t t-if="o.resolution_notes">
+                        <div style="margin-bottom: 10px; page-break-inside: avoid;">
+                            <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #673ab7; padding-bottom: 2px; font-size: 10pt;">
+                                Завршни забелешки
+                            </div>
+                            <div style="background-color: #f3e5f5; padding: 6px; font-size: 9pt;">
+                                <t t-raw="o.resolution_notes"/>
+                            </div>
+                        </div>
+                    </t>
+
+                    <!-- Visit Log Section (conditional) -->
+                    <t t-if="o.include_visit_log_in_print and o.visit_log_ids">
+                        <div style="margin-bottom: 10px; page-break-inside: avoid; width: 100%;">
+                            <div style="font-weight: bold; margin-bottom: 4px; border-bottom: 1px solid #607d8b; padding-bottom: 2px; font-size: 10pt;">
+                                Дневник на посети
+                                <small style="color: #666; font-weight: normal;">
+                                    (<span t-esc="len(o.visit_log_ids)"/> записи)
+                                </small>
+                            </div>
+                            <table style="font-size: 9pt; margin-bottom: 0; width: 100%; border-collapse: collapse; border: 1px solid #333; table-layout: fixed;">
+                                <thead style="background-color: #cfd8dc; color: #2c3e50;">
+                                    <tr>
+                                        <th style="width: 4%; padding: 4px; text-align: center; border: 1px solid #333;">#</th>
+                                        <th style="width: 18%; padding: 4px; border: 1px solid #333;">Датум/Време</th>
+                                        <th style="width: 18%; padding: 4px; border: 1px solid #333;">Корисник</th>
+                                        <th style="width: 60%; padding: 4px; border: 1px solid #333;">Забелешка</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.visit_log_ids" t-as="log">
+                                        <td style="padding: 4px; text-align: center; border: 1px solid #333;"><span t-esc="log_index + 1"/></td>
+                                        <td style="padding: 4px; border: 1px solid #333;"><span t-field="log.date" t-options='{"widget": "datetime"}'/></td>
+                                        <td style="padding: 4px; border: 1px solid #333;"><span t-field="log.user_id.name"/></td>
+                                        <td style="padding: 4px; border: 1px solid #333;"><span t-field="log.note"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+
                     <!-- Travel Section -->
                     <t t-if="o.travel_ids">
                         <div style="margin-bottom: 10px; page-break-inside: avoid; width: 100%;">
